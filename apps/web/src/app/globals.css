@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    /* CleanEase Color System - Light Mode */
+
+    /* Brand Colors */
+    --primary: 207 89% 54%; /* #3B82F6 equivalent - Main brand blue */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+
+    --accent: 142 71% 45%; /* #22C55E equivalent - Secondary brand green */
+    --accent-foreground: 0 0% 100%; /* White text on accent */
+
+    /* Background & Foreground */
+    --background: 0 0% 100%; /* Pure white */
+    --foreground: 222.2 84% 4.9%; /* Near black text */
+
+    /* Surface Colors */
+    --card: 0 0% 100%; /* Card backgrounds */
+    --card-foreground: 222.2 84% 4.9%; /* Text on cards */
+
+    --popover: 0 0% 100%; /* Popover backgrounds */
+    --popover-foreground: 222.2 84% 4.9%; /* Text on popovers */
+
+    /* Interactive States */
+    --secondary: 210 40% 96.1%; /* Light gray for secondary buttons */
+    --secondary-foreground: 222.2 47.4% 11.2%; /* Dark text on secondary */
+
+    --muted: 210 40% 96.1%; /* Subtle background */
+    --muted-foreground: 215.4 16.3% 46.9%; /* Muted text */
+
+    /* Status Colors */
+    --destructive: 0 84.2% 60.2%; /* Error/danger states */
+    --destructive-foreground: 210 40% 98%; /* Text on destructive */
+
+    /* Form Elements */
+    --border: 214.3 31.8% 91.4%; /* Default borders */
+    --input: 214.3 31.8% 91.4%; /* Input field borders */
+    --ring: 207 89% 54%; /* Focus ring color (matches primary) */
+
+    /* Border Radius */
+    --radius: 0.75rem; /* 12px - CleanEase uses generous rounding */
+
+    /* Custom Gradients */
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(207 89% 54%),
+      hsl(207 89% 64%)
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(142 71% 45%),
+      hsl(142 71% 55%)
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(207 89% 54%) 0%,
+      hsl(207 89% 64%) 50%,
+      hsl(142 71% 55%) 100%
+    );
+  }
+
+  .dark {
+    /* CleanEase Color System - Dark Mode */
+    --background: 222.2 84% 4.9%; /* Dark background */
+    --foreground: 210 40% 98%; /* Light text */
+
+    --card: 222.2 84% 4.9%; /* Dark card background */
+    --card-foreground: 210 40% 98%; /* Light text on dark cards */
+
+    --primary: 210 40% 98%; /* Inverted primary */
+    --primary-foreground: 222.2 47.4% 11.2%; /* Dark text on light primary */
+
+    --secondary: 217.2 32.6% 17.5%; /* Dark secondary */
+    --secondary-foreground: 210 40% 98%; /* Light text on dark secondary */
+
+    --muted: 217.2 32.6% 17.5%; /* Dark muted */
+    --muted-foreground: 215 20.2% 65.1%; /* Muted text in dark mode */
+
+    --accent: 217.2 32.6% 17.5%; /* Dark accent background */
+    --accent-foreground: 210 40% 98%; /* Light text on dark accent */
+
+    --destructive: 0 62.8% 30.6%; /* Darker destructive */
+    --destructive-foreground: 210 40% 98%; /* Light text on destructive */
+
+    --border: 217.2 32.6% 17.5%; /* Dark borders */
+    --input: 217.2 32.6% 17.5%; /* Dark input borders */
+    --ring: 212.7 26.8% 83.9%; /* Light focus ring */
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+
+  /* CleanEase Typography Improvements */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button,
+  a,
+  [role='button'] {
+    transition-property: all;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer components {
+  /* CleanEase Button Variants */
+  .btn-hero {
+    background-image: var(--gradient-hero);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-hero:hover {
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-primary {
+    background-image: var(--gradient-primary);
+    color: hsl(var(--primary-foreground));
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary:hover {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .btn-accent {
+    background-image: var(--gradient-accent);
+    color: hsl(var(--accent-foreground));
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-accent:hover {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* CleanEase Card Styles */
+  .card-elevated {
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-elevated:hover {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-interactive {
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .card-interactive:hover {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-color: hsl(var(--primary) / 0.5);
+  }
+
+  /* Popular badge for service cards */
+  .badge-popular {
+    background-image: var(--gradient-primary);
+    color: hsl(var(--primary-foreground));
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}

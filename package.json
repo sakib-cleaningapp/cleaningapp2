@@ -1,0 +1,36 @@
+{
+  "name": "cleanlymvpcursor",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@10.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "dev:web": "turbo run dev --filter=@cleanly/web",
+    "build:web": "turbo run build --filter=@cleanly/web",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2",
+    "turbo": "latest"
+  },
+  "lint-staged": {
+    "apps/web/src/**/*.{js,jsx,ts,tsx}": [
+      "cd apps/web && npm run lint --fix",
+      "cd apps/web && npm run test:run --related"
+    ],
+    "*.{js,jsx,ts,tsx,json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "pg": "^8.17.1"
+  }
+}

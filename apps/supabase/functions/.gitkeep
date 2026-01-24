@@ -1,0 +1,4 @@
+# This directory will contain Supabase Edge Functions
+# Functions can be deployed using: supabase functions deploy 
+ 
+ 

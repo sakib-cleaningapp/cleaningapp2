@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Profile stores public-facing data and role information for a User
+model Profile {
+  id       String @id @default(cuid())
+  userId   String @unique // Reference to Supabase Auth user
+  fullName String
+  role     String @default("CUSTOMER")
+
+  // Relationships
+  business Business?
+  bookings Booking[] @relation("CustomerBookings")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+// Business stores the profile information for a service provider
+model Business {
+  id              String          @id @default(cuid())
+  ownerId         String          @unique
+  businessName    String
+  bio             String
+  serviceCategory String
+
+  // Relationships
+  owner    Profile   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  services Service[]
+  bookings Booking[] @relation("BusinessBookings")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("businesses")
+}
+
+// Service stores a distinct service offered by a Business
+model Service {
+  id          String @id @default(cuid())
+  businessId  String
+  name        String
+  description String
+  price       Decimal
+
+  // Relationships
+  business Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("services")
+}
+
+// Booking represents a transaction for a specific Service
+model Booking {
+  id          String        @id @default(cuid())
+  customerId  String
+  businessId  String
+  serviceId   String
+  bookingDate DateTime
+  totalCost   Decimal
+  status      String        @default("PENDING")
+
+  // Relationships
+  customer Profile @relation("CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
+  business Business @relation("BusinessBookings", fields: [businessId], references: [id], onDelete: Cascade)
+  service  Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bookings")
+}
+
+// Note: Using strings instead of enums for SQLite compatibility
+// Valid values:
+// Role: "CUSTOMER", "BUSINESS_OWNER"
+// ServiceCategory: "CLEANING", "PLUMBING", "ELECTRICAL", "DECORATION", "PEST_CONTROL", "CAR_DETAILING"
+// BookingStatus: "PENDING", "CONFIRMED", "DECLINED", "CANCELLED", "COMPLETED"
+ 
+ 
