@@ -20,7 +20,7 @@ export interface SignUpData {
   email: string;
   password: string;
   fullName: string;
-  postcode: string;
+  postcode?: string;
 }
 
 export interface SignInData {
@@ -40,7 +40,7 @@ export const authService = {
         options: {
           data: {
             full_name: fullName,
-            postcode: postcode.toUpperCase(),
+            ...(postcode ? { postcode: postcode.toUpperCase() } : {}),
           },
         },
       });
@@ -181,52 +181,6 @@ export const authService = {
           error instanceof Error
             ? error.message
             : 'An error occurred sending reset email',
-      };
-    }
-  },
-
-  // Social sign in (Google, Facebook, etc.)
-  async signInWithProvider(
-    provider: 'google' | 'facebook',
-    redirectPath?: string
-  ) {
-    try {
-      // If redirectPath is a full callback path (starts with /auth/), use it directly
-      // Otherwise, use the default callback with next parameter
-      let redirectTo: string;
-      if (redirectPath?.startsWith('/auth/')) {
-        redirectTo = `${window.location.origin}${redirectPath}`;
-      } else {
-        redirectTo = `${window.location.origin}/auth/callback?next=${redirectPath || '/dashboard'}`;
-      }
-
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo,
-          skipBrowserRedirect: false,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          },
-        },
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return {
-        success: true,
-        message: `Redirecting to ${provider}...`,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : `An error occurred with ${provider} sign in`,
       };
     }
   },

@@ -32,10 +32,6 @@ interface AuthContextType {
   resetPassword: (
     email: string
   ) => Promise<{ success: boolean; error?: string; message?: string }>;
-  signInWithProvider: (
-    provider: 'google' | 'facebook',
-    redirectPath?: string
-  ) => Promise<{ success: boolean; error?: string; message?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -183,23 +179,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const signInWithProvider = async (
-    provider: 'google' | 'facebook',
-    redirectPath?: string
-  ) => {
-    try {
-      return await authService.signInWithProvider(provider, redirectPath);
-    } catch (error) {
-      return {
-        success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : `An error occurred with ${provider} sign in`,
-      };
-    }
-  };
-
   const value: AuthContextType = {
     user,
     isLoading,
@@ -208,7 +187,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signIn,
     signOut,
     resetPassword,
-    signInWithProvider,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
